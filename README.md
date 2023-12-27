@@ -7,11 +7,11 @@ Use the tools to add your header image, items, and footer image. Click export wh
 
 Whatever is in the preview will be exported as PDF format.
 
-<hr>
-<h1>Tools</h1>
+## Tools:
 
-<hr>
-<h1>Preview Container</h1>
-<div style="margin: 15px; border: 1pm solid black;">
 
+
+## Preview Container
+<div style="margin: 15px; border: 1pm solid black; aspect-ratio: 1 / 1.41421; width: 100%;">
+    test
 </div>
