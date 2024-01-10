@@ -15,7 +15,6 @@ Use the tools to add your header image, items, and footer image. Click export wh
 Whatever is in the preview will be exported as PDF format.
 
 <h2>Tools:</h2>
-<hr>
 <div class="tools">
     <div class="tool-input">
         <span>Total Pages</span>
@@ -25,13 +24,13 @@ Whatever is in the preview will be exported as PDF format.
         <span>Page Padding</span>
         <input id="padding" type="number" value="15" min="5" max="100">
     </div>
-    <div class="tool-button" onclick="addImage()">
+    <div class="tool-button" onclick="event.stopPropagation(); addImage()">
         Add Image Row
     </div>
-    <div class="tool-button" onclick="addText()">
+    <div class="tool-button" onclick="event.stopPropagation(); addText()">
         Add Text Row
     </div>
-    <div class="tool-button">
+    <div class="tool-button" onclick="event.stopPropagation(); addProduct()">
         Add Product Row
     </div>
 </div>
@@ -40,6 +39,31 @@ Whatever is in the preview will be exported as PDF format.
 <hr>
 <div id="pages">
     <div id="page-1" class="page">
+        <div class="page-inner">
 
+        </div>
     </div>
+</div>
+
+<!--Templates-->
+<div id="product-row" ondblclick="event.stopPropagation(); deleteNode(this)">
+    <div class="product-row__left">
+        <div class="product-row__left-header" onclick="event.stopPropagation(); changeText(this)">
+            Test
+        </div>
+        <div class="product-row__left-details">
+            <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Origin: Italy</p>
+            <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Size: Medium</p>
+            <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Color: Black/Amber</p>
+            <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Tasting Notes: Oceanic flavor with notes of earthiness</p>
+            <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Similar Too: Beluga di Venezia and Siberian Sturgeon</p>
+        </div>
+        <div class="product-row__left-prices">
+            <div class="product-row__left-price" ondblclick="event.stopPropagation(); deleteNode(this)">
+                <span onclick="event.stopPropagation(); changeText(this)">10g</span>
+                <span onclick="event.stopPropagation(); changeText(this)">33$</span>
+            </div>
+        </div>
+    </div>
+    <img class="product-row__right-img" onclick="event.stopPropagation(); changeFile(this)" ondblclick="event.stopPropagation(); deleteNode(this)" src="https://placehold.co/250x250/png">
 </div>
