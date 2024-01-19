@@ -1,6 +1,15 @@
 :root {
     --page-padding: 15px;
 }
+div[size="A4"] {
+    width: 21cm;
+    height: 29.7cm;
+}
+
+div[size="A4"][layout="portrait"] {
+    width: 29.7cm;
+    height: 21cm;
+}
 
 * {
     font-size: 15px;
@@ -32,9 +41,10 @@
 
 .page-inner > .text-node {
     font-family: 'Garamond', sans-serif;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 600;
     margin-bottom: 60px;
+    letter-spacing: 3;
 }
 
 .click-to-remove {
@@ -46,12 +56,36 @@
 }
 
 .product-row {
-    padding: 15px; margin: 15px;
+    position: relative;
     display: flex !important;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    margin-bottom: 45px;
 }
 
+.product-row__delete {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+}
+
+.product-row__delete:hover {
+    font-size: 29px;
+}
+
+.product-row:hover {
+    border: 1px dotted grey;
+}
 
 .product-row__left {
     display: flex;
@@ -67,17 +101,26 @@
     margin-bottom: 15px;
 }
 
+.product-row__left-header:hover {
+    border: 1px dotted grey;
+}
+
 .product-row__left-details {
     font-family: 'Crimson Pro', serif;
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 400;
     letter-spacing: 2.5;
 }
 
 .product-row__left-details p {
-    font-size: 20px;
+    font-size: 18px;
     margin: 0;
     color: #4b4b4b;
+    margin-bottom: 2.5px;
+}
+
+.product-row__left-details p:hover {
+    border: 1px dotted grey;
 }
 
 .product-row__left-prices {
@@ -87,6 +130,9 @@
     letter-spacing: 1.5;
     display: flex;
     margin-top: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .product-row__left-price {
@@ -95,10 +141,30 @@
     margin-right: 10px;
 }
 
+.product-row__left-price:hover {
+    border: 1px dotted grey;
+}
+
 .product-row__right-img {
     height: 250px;
     width: 250px;
     margin-left: 30px;
+}
+
+.product-row__right-img:hover {
+    border: 1px dotted grey;
+}
+
+.product-row__left-price-add {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    display: flex;
+    font-size: 15px;
+    justify-content: center;
+    align-items: center;
 }
 
 .tools {

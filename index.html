@@ -38,7 +38,7 @@ Whatever is in the preview will be exported as PDF format.
 <h2>Preview Container:</h2>
 <hr>
 <div id="pages">
-    <div id="page-1" class="page">
+    <div id="page-1" class="page" size="A4">
         <div class="page-inner">
 
         </div>
@@ -46,9 +46,12 @@ Whatever is in the preview will be exported as PDF format.
 </div>
 
 <!--Templates-->
-<div id="product-row" ondblclick="event.stopPropagation(); deleteNode(this)">
+<div id="product-row">
+    <div class="product-row__delete" ondblclick="event.stopPropagation(); deleteNode(this.parentElement)">
+        X
+    </div>
     <div class="product-row__left">
-        <div class="product-row__left-header" onclick="event.stopPropagation(); changeText(this)">
+        <div class="product-row__left-header" onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">
             Test
         </div>
         <div class="product-row__left-details">
@@ -58,10 +61,13 @@ Whatever is in the preview will be exported as PDF format.
             <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Tasting Notes: Oceanic flavor with notes of earthiness</p>
             <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Similar Too: Beluga di Venezia and Siberian Sturgeon</p>
         </div>
-        <div class="product-row__left-prices">
+        <div class="product-row__left-prices" id="product-row__left-prices">
             <div class="product-row__left-price" ondblclick="event.stopPropagation(); deleteNode(this)">
                 <span onclick="event.stopPropagation(); changeText(this)">10g</span>
                 <span onclick="event.stopPropagation(); changeText(this)">33$</span>
+            </div>
+            <div class="product-row__left-price product-row__left-price-add" onclick="event.stopPropagation(); addPriceNode(this)">
+                +
             </div>
         </div>
     </div>

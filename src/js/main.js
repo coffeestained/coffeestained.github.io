@@ -20,12 +20,7 @@ const pagesCallback = function(mutationsList) {
                 const fragment = document.createDocumentFragment();
                 fragment.appendChild(lastElementChild);
                 addNewPage(fragment);
-                alert('page overflow');
             }
-            console.log('A child node has been added or removed.');
-        }
-        else if (mutation.type == 'attributes') {
-            console.log('The ' + mutation.attributeName + ' attribute was modified.');
         }
     }
 };
@@ -84,7 +79,25 @@ function changeText(element) {
     clearTimeout(clickTimeoutId);
     clickTimeoutId = setTimeout( () => {
         const response = window.prompt("Provide text:", "");
-        if (response) element.target ? element.target.innerHTML = response : element.innerHTML = response;
+        const el = element.target ? element.target : element;
+        if (response) el.innerHTML = response;
+        const page = findAncestor(el, 'page');
+        const overflown = isOverflown(page);
+        if (overflown) {
+            const productRow = findAncestor(el, 'product-row');
+            const nextPage = getNextPage(page);
+            if (nextPage) {
+                const latestPage = getLatestPage();
+                const fragment = document.createDocumentFragment();
+                fragment.appendChild(productRow);
+                latestPage.insertBefore(fragment, latestPage.firstChild);
+            } else {
+                const fragment = document.createDocumentFragment();
+                fragment.appendChild(productRow);
+                addNewPage(fragment);
+            }
+
+        }
     }, maxMsBetweenClicks);
 }
 
@@ -110,6 +123,32 @@ function addNewPage(element) {
     inner.appendChild(element);
     newPage.appendChild(inner);
     pagesNode.appendChild(newPage);
+}
+
+function addPriceNode(element) {
+    if (element.previousSibling.previousSibling && element.previousSibling.previousSibling.classList && element.previousSibling.previousSibling.classList.contains("product-row__left-price")) {
+        var parent = element.parentElement;
+        var newPrice = element.previousSibling.previousSibling.cloneNode(true);
+    }
+    if (element.previousSibling.classList && element.previousSibling.classList.contains("product-row__left-price")) {
+        var parent = element.parentElement;
+        var newPrice = element.previousSibling.cloneNode(true);
+    }
+    parent.appendChild(newPrice);
+    element.remove();
+    parent.appendChild(element);
+}
+
+function findAncestor(el, cls) {
+    while ((el = el.parentElement) && !el.classList.contains(cls));
+    return el;
+}
+
+function getNextPage(page) {
+    console.log(page)
+    const nextPage = page.nextElementSibling;
+    console.log(nextPage)
+
 }
 
 // Utils
