@@ -27,7 +27,6 @@ const pagesCallback = function(mutationsList) {
 const pagesObserver = new MutationObserver(pagesCallback);
 pagesObserver.observe(pagesNode, pagesConfig);
 
-
 // Tools
 const maxMsBetweenClicks = 300;
 var clickTimeoutId = null;
@@ -81,28 +80,12 @@ function changeText(element) {
         const response = window.prompt("Provide text:", "");
         const el = element.target ? element.target : element;
         if (response) el.innerHTML = response;
-        const page = findAncestor(el, 'page');
-        const overflown = isOverflown(page);
-        if (overflown) {
-            const productRow = findAncestor(el, 'product-row');
-            const nextPage = getNextPage(page);
-            if (nextPage) {
-                const latestPage = getLatestPage();
-                const fragment = document.createDocumentFragment();
-                fragment.appendChild(productRow);
-                latestPage.insertBefore(fragment, latestPage.firstChild);
-            } else {
-                const fragment = document.createDocumentFragment();
-                fragment.appendChild(productRow);
-                addNewPage(fragment);
-            }
-
-        }
     }, maxMsBetweenClicks);
 }
 
 async function addProduct() {
-    const duplicateTemplate = document.getElementById("product-row").cloneNode(true);
+    const duplicateTemplate = document.getElementById("sample-row").cloneNode(true);
+    duplicateTemplate.id = "product-row";
     duplicateTemplate.classList.add('product-row');
     getLatestPage().appendChild(duplicateTemplate);
 }
@@ -125,6 +108,18 @@ function addNewPage(element) {
     pagesNode.appendChild(newPage);
 }
 
+function toNextPage(page, element) {
+    if (isOverflown(page.firstElementChild)) {
+        toNextPage(page.nextElementSibling, element)
+    } else {
+        if (page.firstElementChild.firstElementChild) {
+            page.firstElementChild.insertBefore(element, page.firstElementChild.firstElementChild)
+        } else {
+            page.firstElementChild.appendChild(element)
+        }
+    };
+}
+
 function addPriceNode(element) {
     if (element.previousSibling.previousSibling && element.previousSibling.previousSibling.classList && element.previousSibling.previousSibling.classList.contains("product-row__left-price")) {
         var parent = element.parentElement;
@@ -145,11 +140,53 @@ function findAncestor(el, cls) {
 }
 
 function getNextPage(page) {
-    console.log(page)
-    const nextPage = page.nextElementSibling;
-    console.log(nextPage)
-
+    return page.nextElementSibling;
 }
+
+// Register Listener
+setInterval(async () => {
+    const pages = document.getElementsByClassName("page");
+    Array.from(pages).forEach((page, index) => {
+        const previousPageAvailability = pages[index - 1] && pages[index - 1].firstElementChild ? ((pages[index - 1].firstElementChild.clientHeight) - Array.from(pages[index - 1].firstElementChild.childNodes).reduce((response, currentValue) => {
+            const el = currentValue instanceof Element ? window.getComputedStyle(currentValue) : { marginBottom: 0, marginTop: 0 };
+            return response += currentValue.clientHeight ? currentValue.clientHeight + parseInt(el.marginTop) + parseInt(el.marginBottom) : 0;
+        }, 0)) : 0;
+
+        const pageInner = page.firstElementChild;
+        if (pageInner.lastElementChild) {
+            const overflown = isOverflown(pageInner);
+            if (overflown === true) {
+                const fragment = document.createDocumentFragment();
+                fragment.appendChild(pageInner.lastElementChild);
+                if (getNextPage(page)) {
+                    toNextPage(getNextPage(page), fragment);
+                } else {
+                    addNewPage(fragment);
+                }
+            }
+            
+            pageInner.childNodes.forEach((child, y) => {
+                if (child.clientHeight) {
+                    if (y === 0) {
+                        const el = child instanceof Element ? window.getComputedStyle(child) : { marginBottom: 0, marginTop: 0 };
+                        if (child.clientHeight + parseInt(el.marginTop) + parseInt(el.marginBottom) <= previousPageAvailability && pages[index - 1] && pages[index - 1].firstElementChild) {
+                            const fragment = document.createDocumentFragment();
+                            fragment.appendChild(child);
+                            pages[index - 1].firstElementChild.appendChild(fragment);
+                        };
+                    }
+                    if (pageInner.clientHeight <= child.clientHeight) {
+                        deleteNode(child);
+                    }
+                }
+            })
+        }
+
+        if (index !== 0 && pageInner && !pageInner.firstElementChild) {
+            deleteNode(page);
+        }
+    });
+}, 1000)
 
 // Utils
 const toBase64 = (file) => new Promise((resolve, reject) => {

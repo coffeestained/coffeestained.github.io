@@ -23,7 +23,7 @@ div[size="A4"][layout="portrait"] {
 }
 
 .page-inner {
-    position: absolute; inset: 15px; padding: 15px;
+    position: absolute; inset: 15px; padding: 30px;
     border-image: radial-gradient(circle, rgba(2,0,36,1) 0%, rgb(32, 159, 87) 35%, rgb(64, 64, 64) 100%) 30;
     border-width: 2px;
     border-style: solid;
@@ -51,7 +51,7 @@ div[size="A4"][layout="portrait"] {
     cursor: no-drop;
 }
 
-#product-row {
+#sample-row {
     display: none;
 }
 
@@ -60,7 +60,7 @@ div[size="A4"][layout="portrait"] {
     display: flex !important;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 90%;
     margin-bottom: 45px;
 }
 
