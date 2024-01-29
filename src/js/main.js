@@ -123,14 +123,10 @@ function toNextPage(page, element) {
 }
 
 function addPriceNode(element) {
-    if (element.previousSibling.previousSibling && element.previousSibling.previousSibling.classList && element.previousSibling.previousSibling.classList.contains("product-row__left-price")) {
-        var parent = element.parentElement;
-        var newPrice = element.previousSibling.previousSibling.cloneNode(true);
-    }
-    if (element.previousSibling.classList && element.previousSibling.classList.contains("product-row__left-price")) {
-        var parent = element.parentElement;
-        var newPrice = element.previousSibling.cloneNode(true);
-    }
+    var parent = element.parentElement;
+    let firstChild = document.querySelector('.product-row__left-price.add-price');
+    const newPrice = firstChild.cloneNode(true);
+    newPrice.style.display = "flex";
     parent.appendChild(newPrice);
     element.remove();
     parent.appendChild(element);
@@ -254,3 +250,10 @@ var callAddFont = function () {
     this.addFont('../assets/CrimsonPro-Regular.ttf', 'Crimson Pro', 'normal');
 };
 jsPDF.API.events.push(['addFonts', callAddFont])
+
+
+// TEmplates
+const priceTemplate = `            <div class="product-row__left-price" style="display: none;" ondblclick="event.stopPropagation(); deleteNode(this)">
+<span onclick="event.stopPropagation(); changeText(this)">10g</span>
+<span onclick="event.stopPropagation(); changeText(this)">33$</span>
+</div>`;
