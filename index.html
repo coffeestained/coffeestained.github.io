@@ -2,7 +2,11 @@
     <link rel="stylesheet" href="src/styles/styles.css">
     <link href="https://fonts.cdnfonts.com/css/crimson-pro" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/garamond" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script type="text/javascript" src="src/js/main.js" defer></script>
+
 </head>
 <h1>coffeestained.github.io</h1>
 <hr>
@@ -22,7 +26,7 @@ Whatever is in the preview will be exported as PDF format.
     </div>
     <div class="tool-input">
         <span>Page Padding</span>
-        <input id="padding" type="number" value="15" min="5" max="100">
+        <input id="padding" type="number" value="30" min="5" max="100">
     </div>
     <div class="tool-button" onclick="event.stopPropagation(); addImage()">
         Add Image Row
@@ -32,6 +36,13 @@ Whatever is in the preview will be exported as PDF format.
     </div>
     <div class="tool-button" onclick="event.stopPropagation(); addProduct()">
         Add Product Row
+    </div>
+    <div class="" style="flex: 1;"></div>
+    <div class="tool-button float-right" onclick="event.stopPropagation(); exportPdf()">
+        Save & Export
+    </div>
+    <div class="tool-button float-right" onclick="event.stopPropagation(); importPdf()">
+        Import & Load
     </div>
 </div>
 
@@ -47,7 +58,7 @@ Whatever is in the preview will be exported as PDF format.
 
 <!--Templates-->
 <div id="sample-row">
-    <div class="product-row__delete" ondblclick="event.stopPropagation(); deleteNode(this.parentElement)">
+    <div class="product-row__delete tool__delete" ondblclick="event.stopPropagation(); deleteNode(this.parentElement)">
         X
     </div>
     <div class="product-row__left">
@@ -58,7 +69,7 @@ Whatever is in the preview will be exported as PDF format.
             <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Row: Welcome to a product row.</p>
             <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Row: Click to adjust.</p>
             <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Row: Double click to delete.</p>
-            <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Row: This applies to all elements within the page that haver a hover border.</p>
+            <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Row: This applies to all elements within the page that have a hover border.</p>
             <p onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)">Similar To: Beluga di Venezia and Siberian Sturgeon.</p>
         </div>
         <div class="product-row__left-prices" id="product-row__left-prices">
@@ -66,7 +77,7 @@ Whatever is in the preview will be exported as PDF format.
                 <span onclick="event.stopPropagation(); changeText(this)">10g</span>
                 <span onclick="event.stopPropagation(); changeText(this)">33$</span>
             </div>
-            <div class="product-row__left-price product-row__left-price-add" onclick="event.stopPropagation(); addPriceNode(this)">
+            <div class="product-row__left-price product-row__left-price-add tool__delete" onclick="event.stopPropagation(); addPriceNode(this)">
                 +
             </div>
         </div>

@@ -1,29 +1,36 @@
 :root {
-    --page-padding: 15px;
-}
-div[size="A4"] {
-    width: 21cm;
-    height: 29.7cm;
+    --page-padding: 30px;
+    --hidden-on-export: #e9e9e9;
+    --padding-adjustment-on-export: 15px;
+    --display-on-export: flex;
 }
 
-div[size="A4"][layout="portrait"] {
-    width: 29.7cm;
-    height: 21cm;
+div[size="A4"] {
+    width: 23.1cm;
+    height: 29.893cm;
 }
 
 * {
     font-size: 15px;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 
 .page {
-    border: 1px solid rgb(233, 233, 233);
+    border: 1px solid var(--hidden-on-export);
     aspect-ratio: 1 / 1.41421; width: 100%;
     display: flex; align-items: center; position: relative; flex-direction: column;
-    margin-bottom: 15px;
+    margin-bottom: var(--padding-adjustment-on-export);
+    break-after: page;
 }
 
 .page-inner {
-    position: absolute; inset: 15px; padding: 30px;
+    position: absolute; inset: 15px; padding: var(--page-padding);
     border-image: radial-gradient(circle, rgba(2,0,36,1) 0%, rgb(32, 159, 87) 35%, rgb(64, 64, 64) 100%) 30;
     border-width: 2px;
     border-style: solid;
@@ -40,11 +47,12 @@ div[size="A4"][layout="portrait"] {
 }
 
 .page-inner > .text-node {
-    font-family: 'Garamond', sans-serif;
+    font-family: 'Garamond', serif;
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 60px;
     letter-spacing: 3;
+    text-align: center;
 }
 
 .click-to-remove {
@@ -79,6 +87,14 @@ div[size="A4"][layout="portrait"] {
     border-radius: 50%;
 }
 
+.float-right {
+    float: right;
+}
+
+.tool__delete {
+    display: var(--display-on-export) !important;
+}
+
 .product-row__delete:hover {
     font-size: 29px;
 }
@@ -94,7 +110,7 @@ div[size="A4"][layout="portrait"] {
 }
 
 .product-row__left-header {
-    font-family: 'Garamond', sans-serif;
+    font-family: 'Garamond', serif;
     font-size: 25px;
     font-weight: 600;
     letter-spacing: 2;
@@ -139,6 +155,7 @@ div[size="A4"][layout="portrait"] {
     display: flex;
     flex-direction: column;
     margin-right: 10px;
+    color: #6a6a6a;
 }
 
 .product-row__left-price:hover {
