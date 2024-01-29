@@ -25,7 +25,6 @@ div[size="A4"] {
     border: 1px solid var(--hidden-on-export);
     aspect-ratio: 1 / 1.41421; width: 100%;
     display: flex; align-items: center; position: relative; flex-direction: column;
-    margin-bottom: var(--padding-adjustment-on-export);
     break-after: page;
 }
 

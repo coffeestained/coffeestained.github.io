@@ -3,13 +3,6 @@ window.jsPDF = window.jspdf.jsPDF;
 // Root
 const root = document.querySelector(':root');
 
-// Observers
-const paddingNode = document.querySelector('input[id="padding"]');
-paddingNode.addEventListener("change", (event) => {
-    const val = event.target.value;
-    root.style.setProperty('--page-padding', `${val}px`);
-});
-
 const numPages = document.getElementById('numPages');
 const pagesNode = document.getElementById('pages');
 const pagesConfig = { attributes: true, childList: true };
