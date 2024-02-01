@@ -2,11 +2,10 @@
     <link rel="stylesheet" href="src/styles/styles.css">
     <link href="https://fonts.cdnfonts.com/css/crimson-pro" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/garamond" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript" src="src/js/main.js" defer></script>
-
 </head>
 <h1>coffeestained.github.io</h1>
 <hr>
@@ -34,7 +33,7 @@ Whatever is in the preview will be exported as PDF format.
         Add Product Row
     </div>
     <div class="" style="flex: 1;"></div>
-    <div class="tool-button float-right" onclick="event.stopPropagation(); exportPdf()">
+    <div class="tool-button float-right" onclick="event.stopPropagation(); exportFiles()">
         Save & Export
     </div>
     <div class="tool-button float-right" onclick="event.stopPropagation(); importPdf()">

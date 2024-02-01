@@ -1,10 +1,16 @@
 window.jsPDF = window.jspdf.jsPDF;
 
 // Root
-const root = document.querySelector(':root');
+var root = document.querySelector(':root');
+var numPages = document.getElementById('numPages');
+var pagesNode = document.getElementById('pages');
+function setGlobals() {
+    root = document.querySelector(':root');
+    numPages = document.getElementById('numPages');
+    pagesNode = document.getElementById('pages');
+}
+setGlobals();
 
-const numPages = document.getElementById('numPages');
-const pagesNode = document.getElementById('pages');
 const pagesConfig = { attributes: true, childList: true };
 const pagesCallback = function(mutationsList) {
     for(const mutation of mutationsList) {
@@ -134,34 +140,75 @@ function getNextPage(page) {
     return page.nextElementSibling;
 }
 
-function exportPdf() {
+function exportFiles() {
     let newPdf = new jsPDF('p', 'pt', 'letter');   
     document.documentElement.style.cssText = "--hidden-on-export: #fff";
     document.documentElement.style.cssText = "--padding-adjustment-on-export: 0px";
     document.documentElement.style.cssText = `--display-on-export: none`;
 
-    // you need to load html2canvas (and dompurify if you pass a string to html)
-    const opt = {
-        callback: function (jsPdf) {
-            newPdf.save(`PDF-Export_${new Date().toISOString()}.pdf`);
-            document.documentElement.style.cssText = "--hidden-on-export: #e9e9e9";
-            document.documentElement.style.cssText = "--padding-adjustment-on-export: 15px";
-            document.documentElement.style.cssText = `--display-on-export: flex`;
-        },
-        autoPaging: 'text',
-        html2canvas: {
-            allowTaint: true,
-            dpi: 300,
-            letterRendering: true,
-            logging: false,
-            scale: .7
-        }
-    };
-    newPdf.html(pagesNode, opt);
+    const exportName = window.prompt("Name your export:", "");
+    if (exportName) {
+        const fileName = `${exportName}_${generateUID()}`;
+        // you need to load html2canvas (and dompurify if you pass a string to html)
+        const opt = {
+            callback: function (jsPdf) {
+                
+                var zip = new JSZip();
+    
+                // html
+                var file = new Blob([pagesNode.outerHTML], {type: 'text/html'});
+                zip.file(
+                    fileName + ".html", 
+                    file
+                );
+                zip.file(fileName + ".pdf", newPdf.output(`blob`));
+                zip.generateAsync({type:"blob"})
+                .then(function(content) {
+                    // see FileSaver.js
+                    download(content, `${fileName}.zip`, "application/zip");
+                    alert('Successfully exported. Extract the zip fiile. To edit again in the future you can import in the .html file. Provide the .pdf file to your customer base as needed.')
+                })
+                document.documentElement.style.cssText = "--hidden-on-export: #e9e9e9";
+                document.documentElement.style.cssText = "--padding-adjustment-on-export: 15px";
+                document.documentElement.style.cssText = `--display-on-export: flex`;
+            },
+            autoPaging: 'text',
+            html2canvas: {
+                allowTaint: true,
+                dpi: 300,
+                letterRendering: true,
+                logging: false,
+                scale: .7
+            }
+        };
+        newPdf.html(pagesNode, opt);
+    }
 }
 
 function importPdf() {
-    
+    var input = document.createElement('input');
+    input.type = 'file';
+
+    input.onchange = e => { 
+        var file = e.target.files[0]; 
+        if (file.type !== "text/html") alert('Wrong type. Must be HTML.')
+        else {
+            let reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = function() {
+                var doc = new DOMParser().parseFromString(reader.result, "text/html");   
+                pagesNode.outerHTML = doc.firstChild.innerHTML;
+                setGlobals();
+                alert('Successfully imported. Edit and export as needed. A new zip file will then be provided.')
+            };
+            reader.onerror = function() {
+              console.log(reader.error);
+              alert('Something went wrong in the import process.')
+            };
+        }
+    }
+
+    input.click();
 }
 
 // Register Listener
@@ -219,6 +266,7 @@ const toBase64 = (file) => new Promise((resolve, reject) => {
 });
 
 function getLatestPage() {
+    console.log(pagesNode)
     const latestPage = pagesNode.lastElementChild.firstElementChild;
     pagesObserver.observe(latestPage, pagesConfig);
     return latestPage;
@@ -233,6 +281,34 @@ async function getTemplate(filepath) {
 
 const isOverflown = ({ clientWidth, clientHeight, scrollWidth, scrollHeight }) => {
     return scrollHeight > clientHeight || scrollWidth > clientWidth;
+}
+
+function download(data, filename, type) {
+    var file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
+}
+
+function generateUID() {
+    // I generate the UID from two parts here 
+    // to ensure the random number provide enough bits.
+    var firstPart = (Math.random() * 46656) | 0;
+    var secondPart = (Math.random() * 46656) | 0;
+    firstPart = ("000" + firstPart.toString(36)).slice(-3);
+    secondPart = ("000" + secondPart.toString(36)).slice(-3);
+    return firstPart + secondPart;
 }
 
 //Fonts 
