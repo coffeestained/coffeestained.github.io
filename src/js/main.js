@@ -39,9 +39,7 @@ function addImage() {
 
     file.onchange = async (e) => {
         const file = e.target.files[0];
-        const img = document.createElement("img");
-        img.addEventListener('dblclick', deleteNode);
-        img.addEventListener('click', changeFile);
+        const img = fromHTML(imgTemplate);
         img.title = "Double click to delete...";
         img.src = await toBase64(file);
         img.classList.add('click-to-remove');
@@ -64,15 +62,15 @@ function changeFile(element) {
 }
 
 function addText() {
-    const span = document.createElement('span');
+    const span = fromHTML(textTemplate);
     const response = window.prompt("Provide text:", "");
-    span.innerHTML = response;
-    span.addEventListener('dblclick', deleteNode);
-    span.addEventListener('click', changeText);
-    span.title = "Double click to delete...";
-    span.classList.add('text-node');
-    span.classList.add('click-to-remove');
-    getLatestPage().appendChild(span);
+    if (response) {
+        span.innerHTML = response;
+        span.title = "Double click to delete...";
+        span.classList.add('text-node');
+        span.classList.add('click-to-remove');
+        getLatestPage().appendChild(span);
+    }
 }
 
 function changeText(element) {
@@ -320,9 +318,28 @@ var callAddFont = function () {
 };
 jsPDF.API.events.push(['addFonts', callAddFont])
 
+function fromHTML(html, trim = true) {
+    // Process the HTML string.
+    html = trim ? html.trim() : html;
+    if (!html) return null;
+  
+    // Then set up a new template element.
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    const result = template.content.children;
+  
+    // Then return either an HTMLElement or HTMLCollection,
+    // based on whether the input HTML had one or more roots.
+    if (result.length === 1) return result[0];
+    return result;
+  }
 
 // TEmplates
-const priceTemplate = `            <div class="product-row__left-price" style="display: none;" ondblclick="event.stopPropagation(); deleteNode(this)">
+const priceTemplate = `<div class="product-row__left-price" style="display: none;" ondblclick="event.stopPropagation(); deleteNode(this)">
 <span onclick="event.stopPropagation(); changeText(this)">10g</span>
 <span onclick="event.stopPropagation(); changeText(this)">33$</span>
 </div>`;
+
+const textTemplate = `<span onclick="event.stopPropagation(); changeText(this)" ondblclick="event.stopPropagation(); deleteNode(this)" title="Double click to delete..." class="text-node click-to-remove">textNode</span>`;
+
+const imgTemplate = `<img onclick="event.stopPropagation(); changeFile(this)"  ondblclick="event.stopPropagation(); deleteNode(this)" title="Double click to delete..." src="" class="click-to-remove">`;
