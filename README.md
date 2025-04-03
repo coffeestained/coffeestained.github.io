@@ -1,6 +1,6 @@
 # PDF Brochure Maker
 
-A simple quick & dirty **web-based PDF brochure maker** hosted on **GitHub Pages**. This tool allows users to design and generate **custom PDF brochures** directly from their browser. I put this together to help a buddy who was struggling to keep their personal store brochures maintained.
+A simple quick & dirty **web-based PDF brochure maker** hosted on **GitHub Pages**. This tool allows users to design and generate **custom PDF brochures** directly from their browser. I put this together to help a buddy who was struggling to keep their personal store brochures maintained. I didn't spend much time on this, but it works surprisingly well for being a simple piece of technology. Some customizations and such as lacking, but happy to accept PRs if anyone has anything fun. 
 
 ## Features
 - 📄 **Customizable Templates** – Choose from pre-designed layouts or create your own.
@@ -10,7 +10,7 @@ A simple quick & dirty **web-based PDF brochure maker** hosted on **GitHub Pages
 - 💡 **Open Source** – Contributions are welcome!
 
 ## Live Demo
-Check out the live version here: **[GitHub Pages URL](coffeestained.github.io)**  
+Check out the live version here: **[GitHub Pages URL](https://coffeestained.github.io)**  
 
 ## License
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
